@@ -1,0 +1,21 @@
+h1{
+    color:#BF3030;
+    font-size: 40px;
+    background-color: #E79853;
+    text-align: center;
+    font-family: "VCR OSD Mono", monospace;
+}
+
+body {
+    padding-top: 70px;
+    padding-right: 30px;
+    padding-bottom: 50px;
+    padding-left: 80px;
+    color: white;
+    background-color: #E79853;
+}
+p{
+    color:#42475A;
+    font-size: 40px;
+    background-color: #E79853;
+}

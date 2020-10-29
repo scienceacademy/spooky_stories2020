@@ -1,0 +1,31 @@
+body
+{
+/*black color for the background*/
+background-color: #29252c;
+/*lighter red color for the other text*/
+color: #f33535;
+font-family: Times, sans-serif;
+font-size: 20px;
+/*margin from top is 25*/
+margin-top: 25px;
+/*margin from bottom is 45*/
+margin-bottom: 45px;
+/*margin from right is 50*/
+margin-right: 50px;
+/*margin from left is 50*/
+margin-left: 50px;
+}
+
+.section
+{
+/*red color for the sections after the title*/
+color: #d72323;
+}
+
+.title
+{
+/*red color for the title*/
+text-align: center;
+color: #d72323;
+font-size: 300%;
+} 

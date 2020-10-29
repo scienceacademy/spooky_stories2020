@@ -1,0 +1,52 @@
+body
+{
+background-color: #8ef6e4;
+color: #9896f1;
+font-family: Helvetica, Arial;
+font-size: 18px;
+margin-top: 100px;
+margin-bottom: 100px;
+margin-right: 150px;
+margin-left: 150px;
+}
+.section
+{
+color: #d59bf6;
+}
+.title
+{
+text-align: center;
+color: #d59bf6;
+font-size: 300%;
+}
+a
+{
+color: #ffffd2;
+}
+a:hover
+{
+color: #dcedc1;
+}
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #8ef6e4;
+}
+
+li {
+  float: left;
+}
+
+li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+li a:hover {
+  background-color: #17202A ;
+}

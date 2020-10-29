@@ -1,0 +1,49 @@
+body
+{
+    background-color: #272926; /* 794c74;*/
+    color: #d9dbdb;
+    font-size: 1.4em;
+}
+
+h1, h2
+{
+    font-family: Arial, sans-serif;
+    text-shadow: 2px 2px 5px #b1b5b5;
+}
+
+a:visited
+{
+    color: white;
+}
+
+a:hover
+{
+    color: #838787;
+}
+
+img
+{
+    border: 5px solid;
+    border-color: black;
+    float: left;
+    margin-right: 25px;
+}
+.column {
+  float: left;
+  padding: 10px;
+}
+
+/* Left and right column */
+.column.side {
+  width: 25%;
+}
+
+/* Middle column */
+.column.middle {
+  width: 50%;
+}
+@media screen and (max-width: 600px) {
+  .column {
+    width: 100%;
+  }
+}
