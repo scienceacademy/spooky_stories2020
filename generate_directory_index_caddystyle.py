@@ -1,4 +1,56 @@
-<!DOCTYPE html>
+#!/usr/bin/env python3
+# ---
+# Copyright 2020 glowinthedark
+#
+# Licensed under the Apache License, Version 2.0 (the "License"); 
+# you may not use this file except in compliance with the License. 
+#
+# You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, 
+# software distributed under the License is distributed on an "AS IS" BASIS, 
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
+#
+# See the License for the specific language governing permissions and limitations under the License.
+# ---
+#
+# Generate index.html files for
+# all subdirectories in a directory tree.
+
+# -handle symlinked files and folders: displayed with custom icons
+
+# By default only the current folder is processed.
+
+# Use -r or --recursive to process nested folders.
+
+import argparse
+import datetime
+import os
+import sys
+from pathlib import Path
+
+index_file_name = 'index.html'
+
+
+def process_dir(top_dir, opts):
+    glob_patt = opts.filter or '*'
+
+    path_top_dir: Path
+    path_top_dir = Path(top_dir)
+    index_file = None
+
+    index_path = Path(path_top_dir, index_file_name)
+
+    if opts.verbose:
+        print(f'Traversing dir {path_top_dir.absolute()}')
+
+    try:
+        index_file = open(index_path, "w")
+    except Exception as e:
+        print('cannot create file %s %s' % (index_path, e))
+        return
+
+    index_file.write("""<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8">
@@ -242,7 +294,9 @@
     </defs>
     </svg>
 <header>
-    <h1>spooky_stories2020</h1>
+    <h1>"""
+        f'{path_top_dir.name}'
+    """</h1>
 </header>
 <main>
 <div class="listing">
@@ -267,205 +321,147 @@
             <td class="hideable">&mdash;</td>
             <td class="hideable"></td>
         </tr>
+""")
 
+    # sort dirs first
+    sorted_entries = sorted(path_top_dir.glob(glob_patt), key= lambda p: (p.is_file(), p.name))
+
+    entry: Path
+    for entry in sorted_entries:
+
+        # don't include index.html in the file listing
+        if entry.name.lower() == index_file_name.lower():
+            continue
+
+        if entry.is_dir() and opts.recursive:
+            process_dir(entry, opts)
+
+        # From Python 3.6, os.access() accepts path-like objects
+        if (not entry.is_symlink()) and not os.access(str(entry), os.W_OK):
+            print(f"*** WARNING *** entry {entry.absolute()} is not writable! SKIPPING!")
+            continue
+        if opts.verbose:
+            print(f'{entry.absolute()}')
+
+        size_bytes = -1  ## is a folder
+        size_pretty = '&mdash;'
+        last_modified = '-'
+        last_modified_human_readable = '-'
+        last_modified_iso = ''
+        try:
+            if entry.is_file():
+                size_bytes = entry.stat().st_size
+                size_pretty = pretty_size(size_bytes)
+
+            if entry.is_dir() or entry.is_file():
+                last_modified = datetime.datetime.fromtimestamp(entry.stat().st_mtime).replace(microsecond=0)
+                last_modified_iso = last_modified.isoformat()
+                last_modified_human_readable = last_modified.strftime("%c")
+
+        except Exception as e:
+            print('ERROR accessing file name:', e, entry)
+            continue
+
+        entry_path = str(entry.name)
+        
+        if entry.is_dir() and not entry.is_symlink():
+            entry_type = 'folder'
+            entry_path = os.path.join(entry.name, '')
+            
+        elif entry.is_dir() and entry.is_symlink():
+            entry_type = 'folder-shortcut'
+            print('dir-symlink', entry.absolute())
+
+        elif entry.is_file() and entry.is_symlink():
+            entry_type = 'file-shortcut'
+            print('file-symlink', entry.absolute())
+
+        else:
+            entry_type = 'file'
+
+        index_file.write(f"""
         <tr class="file">
             <td></td>
             <td>
-                <a href=".git/">
-                    <svg width="1.5em" height="1em" version="1.1" viewBox="0 0 265 323"><use xlink:href="#folder"></use></svg>
-                    <span class="name">.git</span>
+                <a href="{entry_path}">
+                    <svg width="1.5em" height="1em" version="1.1" viewBox="0 0 265 323"><use xlink:href="#{entry_type}"></use></svg>
+                    <span class="name">{entry.name}</span>
                 </a>
             </td>
-            <td data-order="-1">&mdash;</td>
-            <td class="hideable"><time datetime="2020-10-29T15:26:33">Thu Oct 29 15:26:33 2020</time></td>
+            <td data-order="{size_bytes}">{size_pretty}</td>
+            <td class="hideable"><time datetime="{last_modified_iso}">{last_modified_human_readable}</time></td>
             <td class="hideable"></td>
         </tr>
+""")
 
-        <tr class="file">
-            <td></td>
-            <td>
-                <a href="AysonTrentonSA-023f39ce2c8d29dda56535886dc7207f5703368b/">
-                    <svg width="1.5em" height="1em" version="1.1" viewBox="0 0 265 323"><use xlink:href="#folder"></use></svg>
-                    <span class="name">AysonTrentonSA-023f39ce2c8d29dda56535886dc7207f5703368b</span>
-                </a>
-            </td>
-            <td data-order="-1">&mdash;</td>
-            <td class="hideable"><time datetime="2020-10-28T19:21:06">Wed Oct 28 19:21:06 2020</time></td>
-            <td class="hideable"></td>
-        </tr>
-
-        <tr class="file">
-            <td></td>
-            <td>
-                <a href="KaylaShinSA-c363c754b42493ef1877bc56d76d75e4a5216f5e/">
-                    <svg width="1.5em" height="1em" version="1.1" viewBox="0 0 265 323"><use xlink:href="#folder"></use></svg>
-                    <span class="name">KaylaShinSA-c363c754b42493ef1877bc56d76d75e4a5216f5e</span>
-                </a>
-            </td>
-            <td data-order="-1">&mdash;</td>
-            <td class="hideable"><time datetime="2020-10-29T10:43:33">Thu Oct 29 10:43:33 2020</time></td>
-            <td class="hideable"></td>
-        </tr>
-
-        <tr class="file">
-            <td></td>
-            <td>
-                <a href="PatelAryaSA-a68c41e46a76fed4617b63690ef670ccb7f86417/">
-                    <svg width="1.5em" height="1em" version="1.1" viewBox="0 0 265 323"><use xlink:href="#folder"></use></svg>
-                    <span class="name">PatelAryaSA-a68c41e46a76fed4617b63690ef670ccb7f86417</span>
-                </a>
-            </td>
-            <td data-order="-1">&mdash;</td>
-            <td class="hideable"><time datetime="2020-10-29T10:17:43">Thu Oct 29 10:17:43 2020</time></td>
-            <td class="hideable"></td>
-        </tr>
-
-        <tr class="file">
-            <td></td>
-            <td>
-                <a href="PenhaskashiRyanSA-d26e77ad28adf0dc9e37b4fc3a2b52e0589c41f7/">
-                    <svg width="1.5em" height="1em" version="1.1" viewBox="0 0 265 323"><use xlink:href="#folder"></use></svg>
-                    <span class="name">PenhaskashiRyanSA-d26e77ad28adf0dc9e37b4fc3a2b52e0589c41f7</span>
-                </a>
-            </td>
-            <td data-order="-1">&mdash;</td>
-            <td class="hideable"><time datetime="2020-10-28T15:34:23">Wed Oct 28 15:34:23 2020</time></td>
-            <td class="hideable"></td>
-        </tr>
-
-        <tr class="file">
-            <td></td>
-            <td>
-                <a href="PersaudJordanSA-b5b34fdf76beee72f56726a59919aa3bb8d1d647/">
-                    <svg width="1.5em" height="1em" version="1.1" viewBox="0 0 265 323"><use xlink:href="#folder"></use></svg>
-                    <span class="name">PersaudJordanSA-b5b34fdf76beee72f56726a59919aa3bb8d1d647</span>
-                </a>
-            </td>
-            <td data-order="-1">&mdash;</td>
-            <td class="hideable"><time datetime="2020-10-26T14:11:00">Mon Oct 26 14:11:00 2020</time></td>
-            <td class="hideable"></td>
-        </tr>
-
-        <tr class="file">
-            <td></td>
-            <td>
-                <a href="RodriguezAlexanderSA-94ec350393bdd1efbbbeac7c4add3bf4b9fa2575/">
-                    <svg width="1.5em" height="1em" version="1.1" viewBox="0 0 265 323"><use xlink:href="#folder"></use></svg>
-                    <span class="name">RodriguezAlexanderSA-94ec350393bdd1efbbbeac7c4add3bf4b9fa2575</span>
-                </a>
-            </td>
-            <td data-order="-1">&mdash;</td>
-            <td class="hideable"><time datetime="2020-10-29T15:23:51">Thu Oct 29 15:23:51 2020</time></td>
-            <td class="hideable"></td>
-        </tr>
-
-        <tr class="file">
-            <td></td>
-            <td>
-                <a href="SaikhanbayarMiaSA-ec953a85e5267a465f119b0cb7a41ed0905a63f7/">
-                    <svg width="1.5em" height="1em" version="1.1" viewBox="0 0 265 323"><use xlink:href="#folder"></use></svg>
-                    <span class="name">SaikhanbayarMiaSA-ec953a85e5267a465f119b0cb7a41ed0905a63f7</span>
-                </a>
-            </td>
-            <td data-order="-1">&mdash;</td>
-            <td class="hideable"><time datetime="2020-10-28T20:37:30">Wed Oct 28 20:37:30 2020</time></td>
-            <td class="hideable"></td>
-        </tr>
-
-        <tr class="file">
-            <td></td>
-            <td>
-                <a href="ShafinSyedSA-65b294f62f8fa247d97ae5abfaeb1c4a07f5864b/">
-                    <svg width="1.5em" height="1em" version="1.1" viewBox="0 0 265 323"><use xlink:href="#folder"></use></svg>
-                    <span class="name">ShafinSyedSA-65b294f62f8fa247d97ae5abfaeb1c4a07f5864b</span>
-                </a>
-            </td>
-            <td data-order="-1">&mdash;</td>
-            <td class="hideable"><time datetime="2020-10-28T17:20:53">Wed Oct 28 17:20:53 2020</time></td>
-            <td class="hideable"></td>
-        </tr>
-
-        <tr class="file">
-            <td></td>
-            <td>
-                <a href="WOOJOO-kim-5418c0b52259a30eadb4f3f25695adc356b94252/">
-                    <svg width="1.5em" height="1em" version="1.1" viewBox="0 0 265 323"><use xlink:href="#folder"></use></svg>
-                    <span class="name">WOOJOO-kim-5418c0b52259a30eadb4f3f25695adc356b94252</span>
-                </a>
-            </td>
-            <td data-order="-1">&mdash;</td>
-            <td class="hideable"><time datetime="2020-10-26T15:08:25">Mon Oct 26 15:08:25 2020</time></td>
-            <td class="hideable"></td>
-        </tr>
-
-        <tr class="file">
-            <td></td>
-            <td>
-                <a href="WexlerLeoSA-7a418fba8daacb73f6da92b568fd8d4f5405ddbb/">
-                    <svg width="1.5em" height="1em" version="1.1" viewBox="0 0 265 323"><use xlink:href="#folder"></use></svg>
-                    <span class="name">WexlerLeoSA-7a418fba8daacb73f6da92b568fd8d4f5405ddbb</span>
-                </a>
-            </td>
-            <td data-order="-1">&mdash;</td>
-            <td class="hideable"><time datetime="2020-10-26T15:16:47">Mon Oct 26 15:16:47 2020</time></td>
-            <td class="hideable"></td>
-        </tr>
-
-        <tr class="file">
-            <td></td>
-            <td>
-                <a href="eclomi99-ca9c5ba178af18bd5459c614bb846eb8dd43984a/">
-                    <svg width="1.5em" height="1em" version="1.1" viewBox="0 0 265 323"><use xlink:href="#folder"></use></svg>
-                    <span class="name">eclomi99-ca9c5ba178af18bd5459c614bb846eb8dd43984a</span>
-                </a>
-            </td>
-            <td data-order="-1">&mdash;</td>
-            <td class="hideable"><time datetime="2020-10-29T13:05:22">Thu Oct 29 13:05:22 2020</time></td>
-            <td class="hideable"></td>
-        </tr>
-
-        <tr class="file">
-            <td></td>
-            <td>
-                <a href="klee0072-93e9cac0a8a4ba716ee13bf1c0eb641ffa4915d9/">
-                    <svg width="1.5em" height="1em" version="1.1" viewBox="0 0 265 323"><use xlink:href="#folder"></use></svg>
-                    <span class="name">klee0072-93e9cac0a8a4ba716ee13bf1c0eb641ffa4915d9</span>
-                </a>
-            </td>
-            <td data-order="-1">&mdash;</td>
-            <td class="hideable"><time datetime="2020-10-29T09:52:05">Thu Oct 29 09:52:05 2020</time></td>
-            <td class="hideable"></td>
-        </tr>
-
-        <tr class="file">
-            <td></td>
-            <td>
-                <a href="README.md">
-                    <svg width="1.5em" height="1em" version="1.1" viewBox="0 0 265 323"><use xlink:href="#file"></use></svg>
-                    <span class="name">README.md</span>
-                </a>
-            </td>
-            <td data-order="20">20 bytes</td>
-            <td class="hideable"><time datetime="2020-10-29T15:11:39">Thu Oct 29 15:11:39 2020</time></td>
-            <td class="hideable"></td>
-        </tr>
-
-        <tr class="file">
-            <td></td>
-            <td>
-                <a href="generate_directory_index_caddystyle.py">
-                    <svg width="1.5em" height="1em" version="1.1" viewBox="0 0 265 323"><use xlink:href="#file"></use></svg>
-                    <span class="name">generate_directory_index_caddystyle.py</span>
-                </a>
-            </td>
-            <td data-order="17614">17 KB</td>
-            <td class="hideable"><time datetime="2020-10-29T15:26:17">Thu Oct 29 15:26:17 2020</time></td>
-            <td class="hideable"></td>
-        </tr>
-
+    index_file.write("""
             </tbody>
         </table>
     </div>
 </main>        
 </body>
-</html>
+</html>""")
+    if index_file:
+        index_file.close()
+
+
+# bytes pretty-printing
+UNITS_MAPPING = [
+    (1024 ** 5, ' PB'),
+    (1024 ** 4, ' TB'),
+    (1024 ** 3, ' GB'),
+    (1024 ** 2, ' MB'),
+    (1024 ** 1, ' KB'),
+    (1024 ** 0, (' byte', ' bytes')),
+]
+
+
+def pretty_size(bytes, units=UNITS_MAPPING):
+    """Human-readable file sizes.
+
+    ripped from https://pypi.python.org/pypi/hurry.filesize/
+    """
+    for factor, suffix in units:
+        if bytes >= factor:
+            break
+    amount = int(bytes / factor)
+
+    if isinstance(suffix, tuple):
+        singular, multiple = suffix
+        if amount == 1:
+            suffix = singular
+        else:
+            suffix = multiple
+    return str(amount) + suffix
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description='''DESCRIPTION:
+    Generate directory index files (recursive is OFF by default).
+    Start from current dir or from folder passed as first positional argument.
+    Optionally filter by file types with --filter "*.py". ''')
+
+    parser.add_argument('top_dir',
+                        nargs='?',
+                        action='store',
+                        help='top folder from which to start generating indexes, '
+                             'use current folder if not specified',
+                        default=os.getcwd())
+
+    parser.add_argument('--filter', '-f',
+                        help='only include files matching glob',
+                        required=False)
+
+    parser.add_argument('--recursive', '-r',
+                        action='store_true',
+                        help="recursively process nested dirs (FALSE by default)",
+                        required=False)
+
+    parser.add_argument('--verbose', '-v',
+                        action='store_true',
+                        help='***WARNING: this can take a very long time with complex file tree structures***'
+                             ' verbosely list every processed file',
+                        required=False)
+
+    config = parser.parse_args(sys.argv[1:])
+    process_dir(config.top_dir, config)
