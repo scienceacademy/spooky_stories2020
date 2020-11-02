@@ -1,0 +1,118 @@
+body
+{
+    background-color: #181818;
+}
+
+first
+{
+    font-family: "Times New Roman";
+    color: black;
+    padding: 10px;
+    display: block;
+    background-color: #d3d3d3;
+    font-size: 25px;
+    text-indent: 25px;
+    margin-top: 20px;
+}
+
+text
+{
+    font-family: "Times New Roman";
+    color: black;
+    padding: 10px;
+    display: block;
+    background-color: #d3d3d3;
+    font-size: 25px;
+    text-indent: 25px;
+}
+
+p
+{
+    font-family: "Times New Roman";
+    font-weight: bold;
+    color: white;
+    padding: 10px;
+    display: block;
+    border: 2px solid;
+    border-color: red;
+    background-color: black;
+    text-shadow: 1px 2px 3px red;
+    font-size: 25px;
+    margin: 8px;
+}
+
+h1
+{
+    text-align: center;
+    font-family: "Times New Roman";
+    font-weight: bold;
+    color: white;
+    display: block;
+    padding: 15px;
+    border: 2px solid;
+    border-color: red;
+    background-color: black;
+    background-image: url("splatter.png");
+    text-shadow:
+       1px 1px 1px #300000,
+       1px 1px 1px #400000,
+       1px 1px 1px #500000,
+       1px 1px 1px #600000,
+       1px 1px 1px #700000,
+       1px 1px 1px #800000,
+       1px 1px 1px #900000,
+       1px 1px 1px #A00000,
+       1px 1px 1px #B00000,
+       1px 1px 1px #C00000,
+       1px 2px 1px #D00000,
+       1px 3px 1px #E00000,
+       1px 4px 1px #F00000,
+       1px 5px 1px #FA0000,
+       1px 6px 1px #FB0000,
+       1px 7px 1px #FC0000,
+       1px 8px 1px #FD0000,
+       1px 9px 1px #FE0000,
+       1px 10px 2px #FF0000;
+    margin-bottom: 3px;
+    font-size: 50px;
+}
+
+li
+{
+  float: left;
+  text-align: center;
+}
+
+li a
+{
+    text-align: center;
+    font-family: "Times New Roman";
+    font-weight: bold;
+    color: white;
+    display: block;
+    padding: 15px;
+    background-color: black;
+    text-shadow: 1px 2px 3px red;
+    font-size: 25px;
+    margin: 3px;
+}
+
+li:hover
+{
+    text-align: center;
+    font-family: "Times New Roman";
+    font-weight: bold;
+    color: white;
+    border: 3px dotted red;
+    padding: 6px;
+    background-color: black;
+    text-shadow: 1px 1px 1px red;
+    font-size: 25px;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}

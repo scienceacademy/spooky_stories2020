@@ -1,0 +1,14 @@
+body {
+background-color: #EDCBA9;
+text-align: center;
+font-family: "Comic Sans MS";
+}
+a:visited {
+    color: Blue;
+}
+a:hover {
+    color: #CCDDEE
+}
+img {
+border: 3px solid black;
+}

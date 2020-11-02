@@ -1,0 +1,111 @@
+body {
+    background-color:black;
+    text-align:center;
+}
+
+.storytitle {
+    color:red;
+    font-size:70px;
+    font-family:"Amita";
+}
+
+.head {
+    color:blue;
+    background-color:black;
+    font-size:60px;
+    font-family:"Amita";	
+}
+
+.p1 { 
+    color:orange;
+    font-size:50px;
+}
+
+.p2 {
+    color:orange;
+    font-size:50px;
+}
+
+a {
+    margin-top:30px;
+    color:white;
+    font-size:60px;
+    font-family:"Amita";
+}
+
+.than {
+    font-size:50px;
+    color:orange;
+}
+.man1 {
+    font-size:50px;
+    color:red;
+}
+
+.wife1 {
+    font-size:50px;
+    color:blue;
+}
+
+.tra {
+    font-size:50px;
+    color:orange;
+}
+
+.walk {
+    font-size:50px;
+    color:orange;
+}
+
+.bod2 {
+    font-size:50px;
+    color:orange;
+}
+
+.img2 {
+    margin-top:30px;
+}
+
+.page2 {
+    font-size:60px;
+    font-family:"Amita";
+}
+
+.page3 {
+    font-size:60px;
+    font-family:"Amita";
+}
+
+.man2 {
+    font-size:50px;
+    font-family:"Amita";
+    color:darkorange;
+}
+
+.turn2 {
+    font-size:70px;
+    font-family:"Amita";
+    color:Orange;
+}
+
+.bod3 {
+    font-size:50px;
+    color:darkorange;
+    font-family:"Amita";
+}
+
+.bod4 {
+    font-size:60px;
+    color:red;
+    font-family:"Amita";
+}
+
+.beau {
+    font-size:30px;
+    color:white;
+}
+
+.quote {
+    font-size: 20px;
+    color:red;
+}

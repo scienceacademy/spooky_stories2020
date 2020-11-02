@@ -1,0 +1,23 @@
+#name {
+        font-family:Apple Chancery, cursive;
+        font-size: 50px;
+        text-emphasis: underline;
+        color:  pink; 
+        opacity:0.5;
+    }
+    
+    .about{
+        font-family: American Typewriter, serif;
+        
+    }
+    
+    h1    { 
+        color: orange; 
+    }
+    
+    li:hover {
+        color: green;
+    }
+    h4.about {
+        color: red;
+    }

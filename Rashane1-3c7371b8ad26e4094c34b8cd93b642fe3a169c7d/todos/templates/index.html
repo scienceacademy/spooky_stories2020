@@ -1,0 +1,11 @@
+{% extends "layout.html" %}
+
+{% block body %}
+    The time is {{ date }}.
+    This is {{ name }}. Your random number is:
+    <h1>{{ num }}</h1>
+    <form action="/goodbye">
+        <input name="name" type="text">
+        <input type="submit">
+    </form>
+{% endblock %}

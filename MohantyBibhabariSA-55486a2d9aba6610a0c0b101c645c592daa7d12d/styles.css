@@ -1,0 +1,30 @@
+<styles>
+        head
+        {
+            color:6f4a8e;
+        }
+        h
+        {
+            color: 6f4a8e;
+            text-size: 20;
+            font-family: 'Creepster';font-size: 22px;
+        }
+        p
+        {
+            color: fa7d09;
+
+        }
+        body
+        {
+            background-color: 000000;
+            color: 9d65c9;
+            text-align: center;
+             font-family: 'Special Elite';font-size: 22px
+
+        }
+        img
+        {
+            border : 3px 006a71;
+        }
+
+</styles>

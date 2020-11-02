@@ -1,0 +1,26 @@
+body
+{
+    background-image: url(fireworks.jfif);
+    background-color: black;
+    background-repeat: no-repeat;
+    background-size: 820px 820px;
+    background-position: center;
+    text-align: center;
+}
+
+h1
+{
+    font-family: 'Butcherman Caps';
+    font-size: 45px;
+    color: #FFFFFF;
+}
+
+p
+{
+    color: #FFFFFF;
+}
+
+img
+{
+    float: right;
+}

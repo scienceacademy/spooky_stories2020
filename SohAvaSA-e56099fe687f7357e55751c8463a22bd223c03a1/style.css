@@ -1,0 +1,44 @@
+h1
+{
+    font-family: Trattatello, fantasy;
+    color: #c3aed6;
+    text-align: center;
+}
+p
+{
+    transition-duration: 1.5s;
+    transition-property: color;
+    color: rgb(0, 0, 0, 0);
+}
+p:hover
+{
+    color: #f6f6f6;
+}
+
+body
+{
+    background-color: #14274e;
+    color: #f1f6f9;
+    padding: 25px;
+    font-size: 1.4vw;
+    font-family: "Times New Roman", Times, sans-serif;
+}
+
+a:visited
+{
+    color: #27496d;
+}
+a:hover
+{
+    color: #a35d6a;
+}
+
+img
+{
+    border: 10px seagreen;
+    margin: 10px;
+}
+img:hover
+{
+    border: 10px purple;
+}

@@ -1,0 +1,27 @@
+h1
+{
+    text-align: center;
+    font-family: creepster;
+    font-size: 4em;
+    color: white;
+}
+
+html {
+  overflow-y: scroll;
+}
+
+p{
+    font-size: 1.05em;
+    color: #00ADB5;
+}
+
+body{
+    background-color: #222831;
+}
+
+img{
+    float: left;
+    height: 30.5em;
+    width: 25em;
+}
+
